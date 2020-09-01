@@ -1,0 +1,34 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://src/Main.gd" type="Script" id=1]
+[ext_resource path="res://src/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/Alien.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/Laser.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/HUD.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/BlockGroup.tscn" type="PackedScene" id=6]
+
+[node name="Main" type="Node"]
+script = ExtResource( 1 )
+Alien = ExtResource( 3 )
+Laser = ExtResource( 4 )
+Block = ExtResource( 6 )
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+position = Vector2( 300, 750 )
+
+[node name="MoveTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="ShootTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="HUD" parent="." instance=ExtResource( 5 )]
+
+[node name="AlienStartPoint" type="Position2D" parent="."]
+position = Vector2( 300, 120 )
+
+[node name="BlockStartPoint" type="Position2D" parent="."]
+position = Vector2( 300, 675 )
+[connection signal="Damage" from="Player" to="." method="_on_Player_Damaged"]
+[connection signal="timeout" from="MoveTimer" to="." method="_on_MoveTimer_timeout"]
+[connection signal="timeout" from="ShootTimer" to="." method="mob_shoot"]

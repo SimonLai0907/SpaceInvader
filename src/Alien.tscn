@@ -1,0 +1,70 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://asset/explosionblue.png" type="Texture" id=1]
+[ext_resource path="res://asset/enemy1_1.png" type="Texture" id=2]
+[ext_resource path="res://asset/explosiongreen.png" type="Texture" id=3]
+[ext_resource path="res://asset/enemy2_2.png" type="Texture" id=4]
+[ext_resource path="res://asset/enemy1_2.png" type="Texture" id=5]
+[ext_resource path="res://asset/enemy3_1.png" type="Texture" id=6]
+[ext_resource path="res://asset/enemy3_2.png" type="Texture" id=7]
+[ext_resource path="res://asset/explosionpurple.png" type="Texture" id=8]
+[ext_resource path="res://asset/enemy2_1.png" type="Texture" id=9]
+[ext_resource path="res://src/Alien.gd" type="Script" id=10]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 32, 24 )
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 9 ), ExtResource( 4 ) ],
+"loop": true,
+"name": "type1",
+"speed": 0.0
+}, {
+"frames": [ ExtResource( 6 ), ExtResource( 7 ) ],
+"loop": true,
+"name": "type2",
+"speed": 0.0
+}, {
+"frames": [ ExtResource( 3 ) ],
+"loop": false,
+"name": "explode2",
+"speed": 1.0
+}, {
+"frames": [ ExtResource( 1 ) ],
+"loop": false,
+"name": "explode1",
+"speed": 1.0
+}, {
+"frames": [ ExtResource( 8 ) ],
+"loop": false,
+"name": "explode0",
+"speed": 1.0
+}, {
+"frames": [ ExtResource( 2 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "type0",
+"speed": 0.0
+} ]
+
+[node name="Alien" type="Area2D" groups=[
+"Alien",
+]]
+z_index = 1
+collision_layer = 2
+collision_mask = 0
+script = ExtResource( 10 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+scale = Vector2( 0.32, 0.32 )
+frames = SubResource( 2 )
+animation = "type0"
+playing = true
+
+[node name="LazerPosition" type="Position2D" parent="."]
+position = Vector2( 0, 15 )
+[connection signal="body_entered" from="." to="." method="_on_Laser_entered"]
+[connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_animation_finished"]
